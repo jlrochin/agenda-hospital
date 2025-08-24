@@ -294,7 +294,7 @@ export default function CalendarioMedico({
                             Citas Programadas
                         </h3>
                         <p className="text-xs text-slate-600 mt-1">
-                            Arrastra las tarjetas al calendario
+                            Arrastra entre fechas para cambiar citas
                         </p>
                     </div>
                     <div className="p-4 max-h-96 overflow-y-auto">

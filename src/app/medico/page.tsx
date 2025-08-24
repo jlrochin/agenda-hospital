@@ -166,8 +166,8 @@ export default function MedicoPage() {
                                 Calendario Interactivo
                             </h3>
                             <p className="text-sm text-gray-600">
-                                Arrastra pacientes disponibles al calendario para crear citas.
-                                Arrastra las tarjetas de citas existentes para cambiar fechas.
+                                Cambia a la vista "Lista" para ver pacientes disponibles que puedas arrastrar al calendario.
+                                Aquí puedes mover citas existentes entre fechas.
                                 Usa el botón ❌ para cancelar una cita (con opción de reprogramar).
                                 No se pueden mover citas a fechas pasadas.
                             </p>
