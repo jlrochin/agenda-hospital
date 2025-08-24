@@ -37,11 +37,11 @@ function toYMD(date: Date) {
     return `${y}-${m}-${d}`;
 }
 
-export default function CalendarioMedico({ 
-    citas, 
-    onCitaMovidaAction, 
+export default function CalendarioMedico({
+    citas,
+    onCitaMovidaAction,
     onCitaCanceladaAction,
-    onNuevaCitaCreada 
+    onNuevaCitaCreada
 }: CalendarioMedicoProps) {
     // Inicializar con la fecha actual (agosto 2025)
     const [mesActual, setMesActual] = useState(() => {
@@ -152,12 +152,12 @@ export default function CalendarioMedico({
                 // Crear nueva cita desde paciente disponible
                 const paciente: PacienteDisponible = dropData.paciente;
                 const nuevaCita = crearCitaDesdePaciente(paciente, nuevaFecha);
-                
+
                 // Notificar que se creó una nueva cita
                 if (onNuevaCitaCreada) {
                     onNuevaCitaCreada();
                 }
-                
+
                 // Mostrar confirmación
                 alert(`Cita creada para ${paciente.nombre} el ${nuevaFecha}`);
                 return;

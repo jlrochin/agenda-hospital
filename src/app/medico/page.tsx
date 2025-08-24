@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import ListaPacientesDisponibles from '@/components/ListaPacientesDisponibles';
+import ListaPacientes from '@/components/ListaPacientes';
 import CalendarioMedicoNuevo from '@/components/CalendarioMedicoNuevo';
 import { obtenerCitas, actualizarFechaCita, eliminarCita, eliminarCitasVencidas } from '@/lib/citas';
 import { Cita } from '@/types/cita';
@@ -158,7 +158,7 @@ export default function MedicoPage() {
 
                 {/* Vista dinámica: Lista o Calendario */}
                 {vistaActual === 'lista' ? (
-                    <ListaPacientesDisponibles actualizarLista={actualizarLista} />
+                    <ListaPacientes actualizarLista={actualizarLista} />
                 ) : (
                     <div className="mb-8">
                         <div className="mb-4">
