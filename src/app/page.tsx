@@ -1,103 +1,137 @@
-import Image from "next/image";
+import Link from "next/link";
 
 export default function Home() {
   return (
-    <div className="font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="font-mono list-inside list-decimal text-sm/6 text-center sm:text-left">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] font-mono font-semibold px-1 py-0.5 rounded">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+    <div className="bg-gradient-to-br from-blue-50/60 to-emerald-50/60">
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+        <div className="text-center mb-16">
+          <div className="inline-flex items-center gap-2 rounded-full border border-blue-200 bg-blue-50 text-blue-700 px-3 py-1 text-sm">
+            <span className="inline-block h-2 w-2 rounded-full bg-blue-500" />
+            Plataforma hospitalaria
+          </div>
+          <h1 className="mt-4 text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-slate-900">
+            Agenda de Citas de Hospitalización
+          </h1>
+          <p className="mt-6 max-w-3xl mx-auto text-lg sm:text-xl text-slate-600">
+            Pacientes y personal médico gestionan ingresos y programación con una interfaz clara, segura y profesional.
+          </p>
+        </div>
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+        {/* Accesos directos */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 max-w-5xl mx-auto mb-16">
+          {/* Card Paciente */}
+          <Link
+            href="/paciente"
+            className="group relative bg-white p-8 focus-within:ring-2 focus-within:ring-blue-400 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-200 hover:-translate-y-1 border border-slate-200"
           >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+            <div>
+              <span className="rounded-xl inline-flex p-4 bg-gradient-to-br from-blue-50 to-blue-100 text-blue-600 ring-4 ring-white">
+                <svg className="h-12 w-12" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+                </svg>
+              </span>
+            </div>
+            <div className="mt-6">
+              <h2 className="text-2xl font-semibold text-slate-900 group-hover:text-blue-700 transition-colors">
+                Solicitar Hospitalización
+                <span className="absolute inset-0" aria-hidden="true" />
+              </h2>
+              <p className="mt-3 text-slate-600 text-lg leading-relaxed">
+                Programa tu cita para hospitalización de forma segura y organizada.
+                Completa el formulario con tus datos médicos y selecciona la fecha
+                que mejor se ajuste a tu tratamiento.
+              </p>
+              <div className="mt-6 inline-flex items-center text-blue-700 group-hover:text-blue-800 font-semibold">
+                <span className="text-lg">Programar Cita</span>
+                <svg className="ml-3 h-5 w-5 group-hover:translate-x-1 transition-transform duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                </svg>
+              </div>
+            </div>
+          </Link>
+
+          {/* Card Personal Médico */}
+          <Link
+            href="/medico"
+            className="group relative bg-white p-8 focus-within:ring-2 focus-within:ring-emerald-400 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-200 hover:-translate-y-1 border border-slate-200"
           >
-            Read our docs
-          </a>
+            <div>
+              <span className="rounded-xl inline-flex p-4 bg-gradient-to-br from-emerald-50 to-emerald-100 text-emerald-600 ring-4 ring-white">
+                <svg className="h-12 w-12" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                </svg>
+              </span>
+            </div>
+            <div className="mt-6">
+              <h2 className="text-2xl font-semibold text-slate-900 group-hover:text-emerald-700 transition-colors">
+                Panel de Hospitalización
+                <span className="absolute inset-0" aria-hidden="true" />
+              </h2>
+              <p className="mt-3 text-slate-600 text-lg leading-relaxed">
+                Administra las citas de hospitalización, consulta información de pacientes
+                y gestiona la ocupación hospitalaria. Panel completo de gestión médica.
+              </p>
+              <div className="mt-6 inline-flex items-center text-emerald-700 group-hover:text-emerald-800 font-semibold">
+                <span className="text-lg">Acceder al Panel</span>
+                <svg className="ml-3 h-5 w-5 group-hover:translate-x-1 transition-transform duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                </svg>
+              </div>
+            </div>
+          </Link>
+        </div>
+
+        {/* Sección de características */}
+        <div className="bg-white rounded-2xl shadow-lg border border-slate-200 p-10 max-w-6xl mx-auto">
+          <h2 className="text-3xl font-bold text-slate-900 text-center mb-12">Características del Sistema</h2>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
+            <div className="text-center">
+              <div className="flex justify-center mb-6">
+                <div className="p-4 bg-gradient-to-br from-blue-50 to-blue-100 rounded-2xl">
+                  <svg className="h-10 w-10 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                  </svg>
+                </div>
+              </div>
+              <h3 className="text-xl font-semibold text-slate-900 mb-4">Agendamiento Especializado</h3>
+              <p className="text-slate-600 text-lg leading-relaxed">
+                Formulario específico para hospitalización con validaciones médicas
+                y selección de fechas optimizada para ingresos hospitalarios.
+              </p>
+            </div>
+
+            <div className="text-center">
+              <div className="flex justify-center mb-6">
+                <div className="p-4 bg-gradient-to-br from-emerald-50 to-emerald-100 rounded-2xl">
+                  <svg className="h-10 w-10 text-emerald-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
+                  </svg>
+                </div>
+              </div>
+              <h3 className="text-xl font-semibold text-slate-900 mb-4">Gestión Hospitalaria</h3>
+              <p className="text-slate-600 text-lg leading-relaxed">
+                Panel administrativo completo para el personal médico con estadísticas
+                de ocupación y gestión eficiente de citas de hospitalización.
+              </p>
+            </div>
+
+            <div className="text-center">
+              <div className="flex justify-center mb-6">
+                <div className="p-4 bg-gradient-to-br from-purple-50 to-purple-100 rounded-2xl">
+                  <svg className="h-10 w-10 text-purple-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
+                </div>
+              </div>
+              <h3 className="text-xl font-semibold text-slate-900 mb-4">Monitoreo en Tiempo Real</h3>
+              <p className="text-slate-600 text-lg leading-relaxed">
+                Visualización instantánea de disponibilidad hospitalaria,
+                seguimiento de citas programadas y alertas de ocupación.
+              </p>
+            </div>
+          </div>
         </div>
       </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
     </div>
   );
 }
