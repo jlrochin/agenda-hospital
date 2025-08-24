@@ -135,3 +135,102 @@ export const formatearHora = (hora: string): string => {
     minute: '2-digit'
   });
 };
+
+// Lista base de pacientes disponibles
+export interface PacienteDisponible {
+  id: string;
+  nombre: string;
+  telefono: string;
+  email: string;
+  motivoConsulta: string;
+}
+
+const pacientesBase: PacienteDisponible[] = [
+  {
+    id: 'p1',
+    nombre: 'Roberto Silva Martín',
+    telefono: '+34 612 345 678',
+    email: 'roberto.silva@email.com',
+    motivoConsulta: 'Revisión general'
+  },
+  {
+    id: 'p2',
+    nombre: 'Laura Jiménez Castro',
+    telefono: '+34 623 456 789',
+    email: 'laura.jimenez@email.com',
+    motivoConsulta: 'Control de diabetes'
+  },
+  {
+    id: 'p3',
+    nombre: 'Diego Morales Vega',
+    telefono: '+34 634 567 890',
+    email: 'diego.morales@email.com',
+    motivoConsulta: 'Dolor de espalda'
+  },
+  {
+    id: 'p4',
+    nombre: 'Isabel Romero Díaz',
+    telefono: '+34 645 678 901',
+    email: 'isabel.romero@email.com',
+    motivoConsulta: 'Consulta cardiológica'
+  },
+  {
+    id: 'p5',
+    nombre: 'Antonio Herrera López',
+    telefono: '+34 656 789 012',
+    email: 'antonio.herrera@email.com',
+    motivoConsulta: 'Análisis de sangre'
+  },
+  {
+    id: 'p6',
+    nombre: 'Carmen Ruiz Guerrero',
+    telefono: '+34 667 890 123',
+    email: 'carmen.ruiz@email.com',
+    motivoConsulta: 'Revisión ginecológica'
+  },
+  {
+    id: 'p7',
+    nombre: 'Francisco Peña Santos',
+    telefono: '+34 678 901 234',
+    email: 'francisco.pena@email.com',
+    motivoConsulta: 'Consulta neurológica'
+  },
+  {
+    id: 'p8',
+    nombre: 'Lucía Navarro Cruz',
+    telefono: '+34 689 012 345',
+    email: 'lucia.navarro@email.com',
+    motivoConsulta: 'Revisión oftalmológica'
+  }
+];
+
+// Función para obtener pacientes disponibles (sin citas asignadas)
+export const obtenerPacientesDisponibles = (): PacienteDisponible[] => {
+  const citas = obtenerCitas();
+  const nombresConCitas = new Set(citas.map(cita => cita.nombrePaciente));
+  
+  return pacientesBase.filter(paciente => !nombresConCitas.has(paciente.nombre));
+};
+
+// Función para crear una cita desde un paciente disponible
+export const crearCitaDesdePaciente = (paciente: PacienteDisponible, fecha: string): Cita => {
+  const nuevaCita: Cita = {
+    id: generateId(),
+    nombrePaciente: paciente.nombre,
+    fecha: fecha,
+    hora: '09:00', // Hora por defecto
+    motivo: paciente.motivoConsulta,
+    telefono: paciente.telefono,
+    email: paciente.email,
+    fechaCreacion: new Date().toISOString(),
+  };
+
+  const citasExistentes = obtenerCitas();
+  const citasActualizadas = [...citasExistentes, nuevaCita];
+  
+  if (typeof window !== 'undefined') {
+    localStorage.setItem(CITAS_KEY, JSON.stringify(citasActualizadas));
+  }
+  
+  return nuevaCita;
+};

@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import ListaPacientes from '@/components/ListaPacientes';
+import ListaPacientesDisponibles from '@/components/ListaPacientesDisponibles';
 import CalendarioMedicoNuevo from '@/components/CalendarioMedicoNuevo';
 import { obtenerCitas, actualizarFechaCita, eliminarCita, eliminarCitasVencidas } from '@/lib/citas';
 import { Cita } from '@/types/cita';
@@ -18,7 +18,7 @@ export default function MedicoPage() {
         if (citasEliminadas > 0) {
             console.log(`Se eliminaron ${citasEliminadas} citas vencidas automáticamente`);
         }
-        
+
         const citasActuales = obtenerCitas();
         setCitas(citasActuales);
     }, [actualizarLista]);
@@ -37,7 +37,7 @@ export default function MedicoPage() {
     const handleCitaCanceladaAction = (citaId: string, motivoCancelacion: string, reprogramar: boolean) => {
         // En una aplicación real, aquí se enviaría una notificación al paciente
         console.log(`Cita ${citaId} cancelada. Motivo: ${motivoCancelacion}. Reprogramar: ${reprogramar}`);
-        
+
         const exito = eliminarCita(citaId);
         if (exito) {
             if (reprogramar) {
@@ -57,7 +57,7 @@ export default function MedicoPage() {
         } else {
             alert('No hay citas vencidas para eliminar.');
         }
-    };    return (
+    }; return (
         <div className="bg-gradient-to-br from-emerald-50/60 to-green-50/60">
             <main className="max-w-7xl mx-auto py-10 px-4 sm:px-6 lg:px-8">
                 {/* Hero Section */}
@@ -158,7 +158,7 @@ export default function MedicoPage() {
 
                 {/* Vista dinámica: Lista o Calendario */}
                 {vistaActual === 'lista' ? (
-                    <ListaPacientes actualizarLista={actualizarLista} />
+                    <ListaPacientesDisponibles actualizarLista={actualizarLista} />
                 ) : (
                     <div className="mb-8">
                         <div className="mb-4">
@@ -166,7 +166,8 @@ export default function MedicoPage() {
                                 Calendario Interactivo
                             </h3>
                             <p className="text-sm text-gray-600">
-                                Arrastra las tarjetas de los pacientes para cambiar la fecha de sus citas.
+                                Arrastra pacientes disponibles al calendario para crear citas.
+                                Arrastra las tarjetas de citas existentes para cambiar fechas.
                                 Usa el botón ❌ para cancelar una cita (con opción de reprogramar).
                                 No se pueden mover citas a fechas pasadas.
                             </p>
@@ -175,6 +176,7 @@ export default function MedicoPage() {
                             citas={citas}
                             onCitaMovidaAction={handleCitaMovidaAction}
                             onCitaCanceladaAction={handleCitaCanceladaAction}
+                            onNuevaCitaCreada={handleActualizacion}
                         />
                     </div>
                 )}

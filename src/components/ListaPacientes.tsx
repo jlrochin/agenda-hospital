@@ -2,53 +2,46 @@
 
 import { useState, useEffect } from 'react';
 import { Cita } from '@/types/cita';
-import { obtenerCitasOrdenadas, formatearFecha, formatearHora, eliminarCitasVencidas } from '@/lib/citas';
+import { obtenerPacientesDisponibles, PacienteDisponible, eliminarCitasVencidas } from '@/lib/citas';
 
 interface ListaPacientesProps {
     actualizarLista?: number; // Para forzar actualización
 }
 
 export default function ListaPacientes({ actualizarLista }: ListaPacientesProps) {
-    const [citas, setCitas] = useState<Cita[]>([]);
-    const [filtroFecha, setFiltroFecha] = useState<string>('');
+    const [pacientesDisponibles, setPacientesDisponibles] = useState<PacienteDisponible[]>([]);
+    const [filtroMotivo, setFiltroMotivo] = useState<string>('');
     const [cargando, setCargando] = useState(true);
 
-    const cargarCitas = () => {
+    const cargarPacientesDisponibles = () => {
         setCargando(true);
         setTimeout(() => {
             // Eliminar citas vencidas antes de cargar
             eliminarCitasVencidas();
-            const citasObtenidas = obtenerCitasOrdenadas();
-            setCitas(citasObtenidas);
+            const pacientes = obtenerPacientesDisponibles();
+            setPacientesDisponibles(pacientes);
             setCargando(false);
         }, 300); // Simular delay de carga
     };
 
     useEffect(() => {
-        cargarCitas();
+        cargarPacientesDisponibles();
     }, [actualizarLista]);
 
-    const citasFiltradas = filtroFecha
-        ? citas.filter(cita => cita.fecha === filtroFecha)
-        : citas;
+    const pacientesFiltrados = filtroMotivo
+        ? pacientesDisponibles.filter(paciente => 
+            paciente.motivoConsulta.toLowerCase().includes(filtroMotivo.toLowerCase()))
+        : pacientesDisponibles;
 
-    const contarCitasPorFecha = (fecha: string) => {
-        return citas.filter(cita => cita.fecha === fecha).length;
+    const motivosUnicos = Array.from(new Set(pacientesDisponibles.map(p => p.motivoConsulta))).sort();
+
+    const handleDragStart = (e: React.DragEvent, paciente: PacienteDisponible) => {
+        e.dataTransfer.setData('application/json', JSON.stringify({
+            type: 'paciente-disponible',
+            paciente: paciente
+        }));
+        e.dataTransfer.effectAllowed = 'move';
     };
-
-    const fechasUnicas = Array.from(new Set(citas.map(cita => cita.fecha))).sort();
-
-    const obtenerFechaHoy = () => {
-        const hoy = new Date();
-        return hoy.toISOString().split('T')[0];
-    };
-
-    const esCitaHoy = (fecha: string) => {
-        return fecha === obtenerFechaHoy();
-    };
-
-    const esCitaVencida = (fecha: string, hora?: string) => {
-        const ahora = new Date();
         const fechaCita = new Date(`${fecha} ${hora ?? '23:59'}`);
         return fechaCita < ahora;
     };

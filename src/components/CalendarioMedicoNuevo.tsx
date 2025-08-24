@@ -2,11 +2,13 @@
 
 import { useState, useMemo } from 'react';
 import { Cita } from '@/types/cita';
+import { crearCitaDesdePaciente, PacienteDisponible } from '@/lib/citas';
 
 interface CalendarioMedicoProps {
     citas: Cita[];
     onCitaMovidaAction: (citaId: string, nuevaFecha: string) => void;
     onCitaCanceladaAction?: (citaId: string, motivoCancelacion: string, reprogramar: boolean) => void;
+    onNuevaCitaCreada?: () => void; // Para actualizar la lista cuando se crea una nueva cita
 }
 
 interface ConfirmacionModal {
@@ -35,7 +37,12 @@ function toYMD(date: Date) {
     return `${y}-${m}-${d}`;
 }
 
-export default function CalendarioMedico({ citas, onCitaMovidaAction, onCitaCanceladaAction }: CalendarioMedicoProps) {
+export default function CalendarioMedico({ 
+    citas, 
+    onCitaMovidaAction, 
+    onCitaCanceladaAction,
+    onNuevaCitaCreada 
+}: CalendarioMedicoProps) {
     // Inicializar con la fecha actual (agosto 2025)
     const [mesActual, setMesActual] = useState(() => {
         const hoy = new Date();
@@ -128,33 +135,58 @@ export default function CalendarioMedico({ citas, onCitaMovidaAction, onCitaCanc
     const handleDrop = (e: React.DragEvent, fecha: Date) => {
         e.preventDefault();
 
-        if (!draggedCita) return;
-
         const nuevaFecha = toYMD(fecha);
         const hoy = toYMD(new Date());
 
-        // Debug: verificar las fechas
-        console.log('Fecha original cita:', draggedCita.fecha);
-        console.log('Nueva fecha (drop):', nuevaFecha);
-        console.log('Fecha objeto completo:', fecha);
-
+        // No permitir drops en fechas pasadas
         if (nuevaFecha < hoy) {
             setDraggedCita(null);
             return;
         }
 
-        if (nuevaFecha === draggedCita.fecha) {
+        try {
+            const data = e.dataTransfer.getData('application/json');
+            const dropData = JSON.parse(data);
+
+            if (dropData.type === 'paciente-disponible') {
+                // Crear nueva cita desde paciente disponible
+                const paciente: PacienteDisponible = dropData.paciente;
+                const nuevaCita = crearCitaDesdePaciente(paciente, nuevaFecha);
+                
+                // Notificar que se creó una nueva cita
+                if (onNuevaCitaCreada) {
+                    onNuevaCitaCreada();
+                }
+                
+                // Mostrar confirmación
+                alert(`Cita creada para ${paciente.nombre} el ${nuevaFecha}`);
+                return;
+            }
+
+            // Si es una cita existente (drag desde tarjetas del calendario)
+            if (!draggedCita) return;
+
+            // Debug: verificar las fechas
+            console.log('Fecha original cita:', draggedCita.fecha);
+            console.log('Nueva fecha (drop):', nuevaFecha);
+            console.log('Fecha objeto completo:', fecha);
+
+            if (nuevaFecha === draggedCita.fecha) {
+                setDraggedCita(null);
+                return;
+            }
+
+            setModalConfirmacion({
+                show: true,
+                cita: draggedCita,
+                nuevaFecha
+            });
+
             setDraggedCita(null);
-            return;
+        } catch (error) {
+            console.error('Error al procesar drop:', error);
+            setDraggedCita(null);
         }
-
-        setModalConfirmacion({
-            show: true,
-            cita: draggedCita,
-            nuevaFecha
-        });
-
-        setDraggedCita(null);
     }; const confirmarMovimiento = () => {
         if (modalConfirmacion.cita) {
             onCitaMovidaAction(modalConfirmacion.cita.id, modalConfirmacion.nuevaFecha);
