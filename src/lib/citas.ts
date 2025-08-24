@@ -76,6 +76,38 @@ export const eliminarCita = (citaId: string): boolean => {
   return true;
 };
 
+export const eliminarCitasVencidas = (): number => {
+  const citas = obtenerCitas();
+  const fechaHoy = new Date();
+  fechaHoy.setHours(0, 0, 0, 0); // Establecer a medianoche para comparación solo de fecha
+  
+  const citasVigentes = citas.filter(cita => {
+    const fechaCita = new Date(cita.fecha);
+    fechaCita.setHours(0, 0, 0, 0);
+    return fechaCita >= fechaHoy; // Mantener solo las citas de hoy en adelante
+  });
+  
+  const citasEliminadas = citas.length - citasVigentes.length;
+  
+  if (citasEliminadas > 0 && typeof window !== 'undefined') {
+    localStorage.setItem(CITAS_KEY, JSON.stringify(citasVigentes));
+  }
+  
+  return citasEliminadas;
+};
+
+export const obtenerCitasVigentes = (): Cita[] => {
+  const citas = obtenerCitas();
+  const fechaHoy = new Date();
+  fechaHoy.setHours(0, 0, 0, 0);
+  
+  return citas.filter(cita => {
+    const fechaCita = new Date(cita.fecha);
+    fechaCita.setHours(0, 0, 0, 0);
+    return fechaCita >= fechaHoy;
+  });
+};
+
 // Función para generar un ID único
 function generateId(): string {
   return Date.now().toString(36) + Math.random().toString(36).substr(2);

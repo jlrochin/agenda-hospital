@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import ListaPacientes from '@/components/ListaPacientes';
 import CalendarioMedicoNuevo from '@/components/CalendarioMedicoNuevo';
-import { obtenerCitas, actualizarFechaCita, eliminarCita } from '@/lib/citas';
+import { obtenerCitas, actualizarFechaCita, eliminarCita, eliminarCitasVencidas } from '@/lib/citas';
 import { Cita } from '@/types/cita';
 
 export default function MedicoPage() {
@@ -13,6 +13,12 @@ export default function MedicoPage() {
     const [vistaActual, setVistaActual] = useState<'lista' | 'calendario'>('lista');
 
     useEffect(() => {
+        // Eliminar citas vencidas automáticamente al cargar
+        const citasEliminadas = eliminarCitasVencidas();
+        if (citasEliminadas > 0) {
+            console.log(`Se eliminaron ${citasEliminadas} citas vencidas automáticamente`);
+        }
+        
         const citasActuales = obtenerCitas();
         setCitas(citasActuales);
     }, [actualizarLista]);
@@ -31,7 +37,7 @@ export default function MedicoPage() {
     const handleCitaCanceladaAction = (citaId: string, motivoCancelacion: string, reprogramar: boolean) => {
         // En una aplicación real, aquí se enviaría una notificación al paciente
         console.log(`Cita ${citaId} cancelada. Motivo: ${motivoCancelacion}. Reprogramar: ${reprogramar}`);
-
+        
         const exito = eliminarCita(citaId);
         if (exito) {
             if (reprogramar) {
@@ -43,7 +49,15 @@ export default function MedicoPage() {
         }
     };
 
-    return (
+    const handleEliminarVencidas = () => {
+        const citasEliminadas = eliminarCitasVencidas();
+        if (citasEliminadas > 0) {
+            alert(`Se eliminaron ${citasEliminadas} citas vencidas.`);
+            handleActualizacion();
+        } else {
+            alert('No hay citas vencidas para eliminar.');
+        }
+    };    return (
         <div className="bg-gradient-to-br from-emerald-50/60 to-green-50/60">
             <main className="max-w-7xl mx-auto py-10 px-4 sm:px-6 lg:px-8">
                 {/* Hero Section */}
@@ -107,6 +121,16 @@ export default function MedicoPage() {
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
                                 </svg>
                                 Actualizar Citas
+                            </button>
+
+                            <button
+                                onClick={handleEliminarVencidas}
+                                className="inline-flex items-center px-4 py-2 border border-red-300 text-sm font-medium rounded-md text-red-700 bg-red-50 hover:bg-red-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition-colors"
+                            >
+                                <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                                </svg>
+                                Eliminar Vencidas
                             </button>
 
                             <button

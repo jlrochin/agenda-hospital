@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { Cita } from '@/types/cita';
-import { obtenerCitasOrdenadas, formatearFecha, formatearHora } from '@/lib/citas';
+import { obtenerCitasOrdenadas, formatearFecha, formatearHora, eliminarCitasVencidas } from '@/lib/citas';
 
 interface ListaPacientesProps {
     actualizarLista?: number; // Para forzar actualización
@@ -16,6 +16,8 @@ export default function ListaPacientes({ actualizarLista }: ListaPacientesProps)
     const cargarCitas = () => {
         setCargando(true);
         setTimeout(() => {
+            // Eliminar citas vencidas antes de cargar
+            eliminarCitasVencidas();
             const citasObtenidas = obtenerCitasOrdenadas();
             setCitas(citasObtenidas);
             setCargando(false);
