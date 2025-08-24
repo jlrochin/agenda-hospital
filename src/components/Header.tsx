@@ -17,7 +17,12 @@ export default function Header() {
                             <Image src="/logo-hospital.svg" alt="Hospital Agenda" width={36} height={36} className="h-9 w-9" />
                         </span>
                         <div className="leading-tight">
-                            <span className="block text-sm text-slate-500">Hospital Agenda</span>
+                            <div className="flex items-center gap-2">
+                                <span className="block text-sm text-slate-500">Hospital Agenda</span>
+                                <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+                                    DEMO
+                                </span>
+                            </div>
                             <span className="block text-base font-semibold text-slate-900">
                                 Sistema de Hospitalización
                             </span>

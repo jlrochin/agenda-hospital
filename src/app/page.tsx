@@ -7,7 +7,7 @@ export default function Home() {
         <div className="text-center mb-16">
           <div className="inline-flex items-center gap-2 rounded-full border border-blue-200 bg-blue-50 text-blue-700 px-3 py-1 text-sm">
             <span className="inline-block h-2 w-2 rounded-full bg-blue-500" />
-            Plataforma hospitalaria
+            Prototipo de demostración
           </div>
           <h1 className="mt-4 text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-slate-900">
             Agenda de Citas de Hospitalización
@@ -15,6 +15,11 @@ export default function Home() {
           <p className="mt-6 max-w-3xl mx-auto text-lg sm:text-xl text-slate-600">
             Pacientes y personal médico gestionan ingresos y programación con una interfaz clara, segura y profesional.
           </p>
+          <div className="mt-4 max-w-2xl mx-auto">
+            <p className="text-sm text-slate-500 bg-slate-50 px-4 py-2 rounded-lg border border-slate-200">
+              ⚠️ Este es un sistema de demostración con fines educativos. Los datos se almacenan localmente en tu navegador.
+            </p>
+          </div>
         </div>
 
         {/* Accesos directos */}
