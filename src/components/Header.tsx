@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 import Navigation from "./Navigation";
 
@@ -13,7 +14,7 @@ export default function Header() {
                 <div className="flex items-center justify-between h-16">
                     <Link href="/" className="flex items-center gap-3 group">
                         <span className="inline-flex h-9 w-9 items-center justify-center rounded-md overflow-hidden shadow-sm ring-1 ring-slate-200">
-                            <img src="/logo-hospital.svg" alt="Hospital Agenda" className="h-9 w-9" />
+                            <Image src="/logo-hospital.svg" alt="Hospital Agenda" width={36} height={36} className="h-9 w-9" />
                         </span>
                         <div className="leading-tight">
                             <span className="block text-sm text-slate-500">Hospital Agenda</span>

@@ -71,7 +71,7 @@ export default function CalendarioMedico({ citas, onCitaMovidaAction, onCitaCanc
         start.setDate(base.getDate() - day);
 
         const weeks: Array<Array<Date>> = [];
-        let cursor = new Date(start);
+        const cursor = new Date(start);
         for (let w = 0; w < 6; w++) {
             const week: Date[] = [];
             for (let d = 0; d < 7; d++) {
@@ -394,7 +394,6 @@ export default function CalendarioMedico({ citas, onCitaMovidaAction, onCitaCanc
                             week.map((date, di) => {
                                 const ymd = toYMD(date);
                                 const disabled = isDisabled(date);
-                                const isSelected = false; // No hay selección en el calendario médico
                                 const inMonth = isCurrentMonth(date);
                                 const esHoy = ymd === toYMD(new Date());
                                 const citasDelDia = citasPorFecha.get(ymd) || [];

@@ -37,7 +37,7 @@ export default function CalendarioGrande({
         start.setDate(base.getDate() - day);
 
         const weeks: Array<Array<Date>> = [];
-        let cursor = new Date(start);
+        const cursor = new Date(start);
         for (let w = 0; w < 6; w++) {
             const week: Date[] = [];
             for (let d = 0; d < 7; d++) {
@@ -52,7 +52,7 @@ export default function CalendarioGrande({
         const monthName = base.toLocaleString("es-ES", { month: "long" });
         const year = base.getFullYear();
         return { weeks, monthName, year };
-    }, [selected]);
+    }, [selected, selectedDate]);
 
     const isDisabled = (date: Date) => {
         const ymd = toYMD(date);
